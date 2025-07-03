@@ -1,0 +1,168 @@
+{% extends 'microboard/base.html' %}
+{% load static %}
+
+{% block title %}投稿を作成{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <h1 class="page-title">投稿を作成</h1>
+  </div>
+
+  <div class="post-form">
+    <form method="post" enctype="multipart/form-data" id="post-form">
+      {% csrf_token %}
+      
+      <div class="form-group">
+        <div class="tweet-header">
+          <div class="user-avatar">
+            {{ user.username|first|upper }}
+          </div>
+          <div class="user-info">
+            <div class="user-name">{{ user.username }}</div>
+            <div class="user-handle">@{{ user.username }}</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <textarea 
+          name="content" 
+          class="form-control" 
+          placeholder="いまどうしてる？" 
+          maxlength="280"
+          id="content-textarea"
+          rows="4"
+        >{% if form.content.value %}{{ form.content.value }}{% endif %}</textarea>
+      </div>
+      
+      {% if form.content.errors %}
+        <div class="error-message">
+          {{ form.content.errors }}
+        </div>
+      {% endif %}
+      
+      <div class="form-group">
+        <label for="id_image" class="image-upload-label">
+          <i class="fas fa-image"></i>
+          <span>画像を追加</span>
+        </label>
+        <input type="file" name="image" id="id_image" accept="image/*" style="display: none;">
+        <div id="image-preview" style="display: none;">
+          <img id="preview-img" src="" alt="プレビュー" style="max-width: 100%; border-radius: 16px; margin-top: 10px;">
+          <button type="button" id="remove-image" style="background: none; border: none; color: #f91880; cursor: pointer; margin-top: 5px;">
+            <i class="fas fa-times"></i> 画像を削除
+          </button>
+        </div>
+      </div>
+      
+      {% if form.image.errors %}
+        <div class="error-message">
+          {{ form.image.errors }}
+        </div>
+      {% endif %}
+      
+      <div class="form-actions">
+        <div class="char-counter">
+          <span id="char-count">280</span>
+        </div>
+        <button type="submit" class="submit-btn" id="submit-btn">
+          <i class="fas fa-paper-plane"></i> 投稿する
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <style>
+    .image-upload-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #1d9bf0;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 20px;
+      transition: background-color 0.2s ease;
+    }
+    
+    .image-upload-label:hover {
+      background-color: rgba(29, 155, 240, 0.1);
+    }
+    
+    .char-counter {
+      color: #71767b;
+      font-size: 14px;
+    }
+    
+    .error-message {
+      color: #f91880;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+    
+    #submit-btn:disabled {
+      background-color: #1d9bf0;
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const textarea = document.getElementById('content-textarea');
+      const charCount = document.getElementById('char-count');
+      const submitBtn = document.getElementById('submit-btn');
+      const imageInput = document.getElementById('id_image');
+      const imagePreview = document.getElementById('image-preview');
+      const previewImg = document.getElementById('preview-img');
+      const removeImageBtn = document.getElementById('remove-image');
+      
+      // 文字数カウンター
+      function updateCharCount() {
+        const maxLength = 280;
+        const currentLength = textarea.value.length;
+        const remaining = maxLength - currentLength;
+        
+        charCount.textContent = remaining;
+        
+        if (remaining < 0) {
+          charCount.style.color = '#f91880';
+          submitBtn.disabled = true;
+        } else if (remaining < 20) {
+          charCount.style.color = '#ffd700';
+          submitBtn.disabled = false;
+        } else {
+          charCount.style.color = '#71767b';
+          submitBtn.disabled = false;
+        }
+      }
+      
+      textarea.addEventListener('input', updateCharCount);
+      updateCharCount();
+      
+      // 画像プレビュー
+      imageInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            previewImg.src = e.target.result;
+            imagePreview.style.display = 'block';
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+      
+      // 画像削除
+      removeImageBtn.addEventListener('click', function() {
+        imageInput.value = '';
+        imagePreview.style.display = 'none';
+      });
+      
+      // フォーム送信時のアニメーション
+      document.getElementById('post-form').addEventListener('submit', function() {
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 投稿中...';
+        submitBtn.disabled = true;
+      });
+    });
+  </script>
+{% endblock %}

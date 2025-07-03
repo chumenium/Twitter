@@ -1,0 +1,624 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>新規登録 - Twitter風アプリ</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #000;
+      color: #fff;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .signup-container {
+      width: 100%;
+      max-width: 400px;
+      padding: 40px 20px;
+    }
+
+    .signup-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .logo {
+      font-size: 48px;
+      color: #1d9bf0;
+      margin-bottom: 20px;
+    }
+
+    .signup-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: #e7e9ea;
+      margin-bottom: 8px;
+    }
+
+    .signup-subtitle {
+      color: #71767b;
+      font-size: 16px;
+    }
+
+    .signup-form {
+      background-color: transparent;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      color: #e7e9ea;
+      font-weight: 500;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .form-control {
+      width: 100%;
+      background-color: transparent;
+      border: 1px solid #2f3336;
+      border-radius: 8px;
+      color: #e7e9ea;
+      padding: 16px;
+      font-size: 16px;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+
+    .form-control:focus {
+      border-color: #1d9bf0;
+      box-shadow: 0 0 0 2px rgba(29, 155, 240, 0.2);
+    }
+
+    .form-control::placeholder {
+      color: #71767b;
+    }
+
+    .form-control.error {
+      border-color: #f91880;
+    }
+
+    .form-control.success {
+      border-color: #00ba7c;
+    }
+
+    .error-message {
+      color: #f91880;
+      font-size: 14px;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .success-message {
+      color: #00ba7c;
+      font-size: 14px;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .password-strength {
+      margin-top: 8px;
+      font-size: 12px;
+    }
+
+    .strength-bar {
+      height: 4px;
+      background-color: #2f3336;
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 4px;
+    }
+
+    .strength-fill {
+      height: 100%;
+      transition: all 0.3s ease;
+      border-radius: 2px;
+    }
+
+    .strength-weak .strength-fill {
+      background-color: #f91880;
+      width: 25%;
+    }
+
+    .strength-medium .strength-fill {
+      background-color: #ffd700;
+      width: 50%;
+    }
+
+    .strength-strong .strength-fill {
+      background-color: #00ba7c;
+      width: 75%;
+    }
+
+    .strength-very-strong .strength-fill {
+      background-color: #00ba7c;
+      width: 100%;
+    }
+
+    .signup-btn {
+      width: 100%;
+      background-color: #1d9bf0;
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 25px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      margin-bottom: 20px;
+    }
+
+    .signup-btn:hover {
+      background-color: #1a8cd8;
+    }
+
+    .signup-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 20px 0;
+      color: #71767b;
+      font-size: 14px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background-color: #2f3336;
+    }
+
+    .divider span {
+      padding: 0 16px;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .login-link a {
+      color: #1d9bf0;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+
+    .social-signup {
+      margin-top: 20px;
+    }
+
+    .social-btn {
+      width: 100%;
+      background-color: transparent;
+      border: 1px solid #2f3336;
+      color: #e7e9ea;
+      padding: 12px 16px;
+      border-radius: 25px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .social-btn:hover {
+      background-color: rgba(239, 243, 244, 0.1);
+    }
+
+    .social-btn i {
+      font-size: 18px;
+    }
+
+    .terms {
+      text-align: center;
+      margin-top: 20px;
+      color: #71767b;
+      font-size: 12px;
+      line-height: 16px;
+    }
+
+    .terms a {
+      color: #1d9bf0;
+      text-decoration: none;
+    }
+
+    .terms a:hover {
+      text-decoration: underline;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .checkbox {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #2f3336;
+      border-radius: 4px;
+      cursor: pointer;
+      position: relative;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .checkbox.checked {
+      background-color: #1d9bf0;
+      border-color: #1d9bf0;
+    }
+
+    .checkbox.checked::after {
+      content: '\f00c';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      color: white;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 12px;
+    }
+
+    .checkbox-label {
+      color: #e7e9ea;
+      font-size: 14px;
+      line-height: 20px;
+      cursor: pointer;
+    }
+
+    .checkbox-label a {
+      color: #1d9bf0;
+      text-decoration: none;
+    }
+
+    .checkbox-label a:hover {
+      text-decoration: underline;
+    }
+
+    /* アニメーション */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .signup-container {
+      animation: fadeInUp 0.6s ease;
+    }
+
+    /* レスポンシブ */
+    @media (max-width: 480px) {
+      .signup-container {
+        padding: 20px 16px;
+      }
+      
+      .signup-title {
+        font-size: 28px;
+      }
+      
+      .logo {
+        font-size: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-container">
+    <div class="signup-header">
+      <div class="logo">
+        <i class="fab fa-twitter"></i>
+      </div>
+      <h1 class="signup-title">アカウントを作成</h1>
+      <p class="signup-subtitle">今すぐ始めましょう</p>
+    </div>
+
+    <form method="post" class="signup-form" id="signup-form">
+      {% csrf_token %}
+      
+      <div class="form-group">
+        <label for="id_username" class="form-label">ユーザー名</label>
+        <input 
+          type="text" 
+          name="username" 
+          id="id_username" 
+          class="form-control" 
+          placeholder="ユーザー名を入力"
+          required
+          autocomplete="username"
+          minlength="3"
+          maxlength="30"
+        >
+        {% if form.username.errors %}
+          <div class="error-message">
+            <i class="fas fa-exclamation-circle"></i>
+            {{ form.username.errors.0 }}
+          </div>
+        {% endif %}
+        <div class="success-message" id="username-success" style="display: none;">
+          <i class="fas fa-check-circle"></i>
+          このユーザー名は利用可能です
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="id_password1" class="form-label">パスワード</label>
+        <input 
+          type="password" 
+          name="password1" 
+          id="id_password1" 
+          class="form-control" 
+          placeholder="パスワードを入力"
+          required
+          autocomplete="new-password"
+          minlength="8"
+        >
+        <div class="password-strength" id="password-strength">
+          <div class="strength-bar">
+            <div class="strength-fill"></div>
+          </div>
+          <div class="strength-text">パスワードの強度</div>
+        </div>
+        {% if form.password1.errors %}
+          <div class="error-message">
+            <i class="fas fa-exclamation-circle"></i>
+            {{ form.password1.errors.0 }}
+          </div>
+        {% endif %}
+      </div>
+      
+      <div class="form-group">
+        <label for="id_password2" class="form-label">パスワード（確認）</label>
+        <input 
+          type="password" 
+          name="password2" 
+          id="id_password2" 
+          class="form-control" 
+          placeholder="パスワードを再入力"
+          required
+          autocomplete="new-password"
+        >
+        {% if form.password2.errors %}
+          <div class="error-message">
+            <i class="fas fa-exclamation-circle"></i>
+            {{ form.password2.errors.0 }}
+          </div>
+        {% endif %}
+        <div class="success-message" id="password-match" style="display: none;">
+          <i class="fas fa-check-circle"></i>
+          パスワードが一致しています
+        </div>
+      </div>
+
+      <div class="checkbox-group">
+        <div class="checkbox" id="terms-checkbox"></div>
+        <label class="checkbox-label" for="terms-checkbox">
+          <a href="#">利用規約</a>と<a href="#">プライバシーポリシー</a>に同意します
+        </label>
+      </div>
+
+      <div class="checkbox-group">
+        <div class="checkbox" id="newsletter-checkbox"></div>
+        <label class="checkbox-label" for="newsletter-checkbox">
+          ニュースレターとお知らせを受け取る
+        </label>
+      </div>
+
+      {% if form.non_field_errors %}
+        <div class="error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ form.non_field_errors.0 }}
+        </div>
+      {% endif %}
+      
+      <button type="submit" class="signup-btn" id="signup-btn" disabled>
+        <i class="fas fa-user-plus"></i> アカウントを作成
+      </button>
+    </form>
+
+    <div class="divider">
+      <span>または</span>
+    </div>
+
+    <div class="social-signup">
+      <button class="social-btn" type="button">
+        <i class="fab fa-google"></i>
+        Googleで登録
+      </button>
+      <button class="social-btn" type="button">
+        <i class="fab fa-apple"></i>
+        Appleで登録
+      </button>
+    </div>
+
+    <div class="login-link">
+      <p>すでにアカウントをお持ちの方は <a href="{% url 'account_login' %}">ログイン</a></p>
+    </div>
+
+    <div class="terms">
+      <p>登録することで、<a href="#">利用規約</a>と<a href="#">プライバシーポリシー</a>に同意したことになります。</p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('signup-form');
+      const signupBtn = document.getElementById('signup-btn');
+      const inputs = form.querySelectorAll('.form-control');
+      const termsCheckbox = document.getElementById('terms-checkbox');
+      const newsletterCheckbox = document.getElementById('newsletter-checkbox');
+      const password1 = document.getElementById('id_password1');
+      const password2 = document.getElementById('id_password2');
+      const username = document.getElementById('id_username');
+      
+      // パスワード強度チェック
+      function checkPasswordStrength(password) {
+        const strengthBar = document.getElementById('password-strength');
+        const strengthText = strengthBar.querySelector('.strength-text');
+        
+        let strength = 0;
+        if (password.length >= 8) strength++;
+        if (/[a-z]/.test(password)) strength++;
+        if (/[A-Z]/.test(password)) strength++;
+        if (/[0-9]/.test(password)) strength++;
+        if (/[^A-Za-z0-9]/.test(password)) strength++;
+        
+        strengthBar.className = 'password-strength';
+        
+        if (strength <= 1) {
+          strengthBar.classList.add('strength-weak');
+          strengthText.textContent = '弱い';
+        } else if (strength <= 2) {
+          strengthBar.classList.add('strength-medium');
+          strengthText.textContent = '普通';
+        } else if (strength <= 3) {
+          strengthBar.classList.add('strength-strong');
+          strengthText.textContent = '強い';
+        } else {
+          strengthBar.classList.add('strength-very-strong');
+          strengthText.textContent = '非常に強い';
+        }
+      }
+      
+      // パスワード一致チェック
+      function checkPasswordMatch() {
+        const matchMessage = document.getElementById('password-match');
+        if (password1.value && password2.value) {
+          if (password1.value === password2.value) {
+            password2.classList.remove('error');
+            password2.classList.add('success');
+            matchMessage.style.display = 'flex';
+          } else {
+            password2.classList.remove('success');
+            password2.classList.add('error');
+            matchMessage.style.display = 'none';
+          }
+        }
+      }
+      
+      // ユーザー名チェック
+      function checkUsername() {
+        const successMessage = document.getElementById('username-success');
+        if (username.value.length >= 3) {
+          username.classList.remove('error');
+          username.classList.add('success');
+          successMessage.style.display = 'flex';
+        } else {
+          username.classList.remove('success');
+          successMessage.style.display = 'none';
+        }
+      }
+      
+      // フォーム送信可能かチェック
+      function checkFormValidity() {
+        const isTermsAccepted = termsCheckbox.classList.contains('checked');
+        const isPasswordMatch = password1.value === password2.value && password1.value.length >= 8;
+        const isUsernameValid = username.value.length >= 3;
+        
+        if (isTermsAccepted && isPasswordMatch && isUsernameValid) {
+          signupBtn.disabled = false;
+        } else {
+          signupBtn.disabled = true;
+        }
+      }
+      
+      // イベントリスナー
+      password1.addEventListener('input', function() {
+        checkPasswordStrength(this.value);
+        checkPasswordMatch();
+        checkFormValidity();
+      });
+      
+      password2.addEventListener('input', function() {
+        checkPasswordMatch();
+        checkFormValidity();
+      });
+      
+      username.addEventListener('input', function() {
+        checkUsername();
+        checkFormValidity();
+      });
+      
+      // チェックボックス
+      termsCheckbox.addEventListener('click', function() {
+        this.classList.toggle('checked');
+        checkFormValidity();
+      });
+      
+      newsletterCheckbox.addEventListener('click', function() {
+        this.classList.toggle('checked');
+      });
+      
+      // フォーム送信時のアニメーション
+      form.addEventListener('submit', function() {
+        signupBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> アカウント作成中...';
+        signupBtn.disabled = true;
+      });
+      
+      // 入力フィールドのフォーカス効果
+      inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+          this.parentElement.classList.add('focused');
+        });
+        
+        input.addEventListener('blur', function() {
+          this.parentElement.classList.remove('focused');
+        });
+      });
+      
+      // ソーシャルサインアップボタンのホバー効果
+      const socialBtns = document.querySelectorAll('.social-btn');
+      socialBtns.forEach(btn => {
+        btn.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-1px)';
+        });
+        
+        btn.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateY(0)';
+        });
+      });
+    });
+  </script>
+</body>
+</html>

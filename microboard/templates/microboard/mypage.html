@@ -1,0 +1,462 @@
+{% extends 'microboard/base.html' %}
+{% load static %}
+
+{% block title %}{{ profile.name }} (@{{ profile.user.username }}){% endblock %}
+
+{% block content %}
+  <div class="profile-header">
+    <div class="profile-cover">
+      <div class="profile-avatar">
+        {% if profile.image %}
+          <img src="{{ profile.image.url }}" alt="{{ profile.name }}" />
+        {% else %}
+          {{ profile.user.username|first|upper }}
+        {% endif %}
+      </div>
+    </div>
+    
+    <div class="profile-info">
+      <div class="profile-actions">
+        <a href="{% url 'profile_edit' %}" class="edit-profile-btn">
+          <i class="fas fa-edit"></i> プロフィールを編集
+        </a>
+      </div>
+      
+      <div class="profile-details">
+        <h1 class="profile-name">{{ profile.name }}</h1>
+        <div class="profile-handle">@{{ profile.user.username }}</div>
+        
+        {% if profile.bio %}
+          <div class="profile-bio">{{ profile.bio }}</div>
+        {% endif %}
+        
+        <div class="profile-stats">
+          <div class="stat-item">
+            <span class="stat-number">{{ posts.count }}</span>
+            <span class="stat-label">投稿</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">{{ liked_posts.count }}</span>
+            <span class="stat-label">いいね</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">{{ bookmarked_posts.count }}</span>
+            <span class="stat-label">ブックマーク</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="profile-tabs">
+    <button class="tab-btn active" data-tab="posts">
+      <i class="fas fa-list"></i> 投稿
+    </button>
+    <button class="tab-btn" data-tab="media">
+      <i class="fas fa-image"></i> メディア
+    </button>
+    <button class="tab-btn" data-tab="likes">
+      <i class="fas fa-heart"></i> いいね
+    </button>
+    <button class="tab-btn" data-tab="bookmarks">
+      <i class="fas fa-bookmark"></i> ブックマーク
+    </button>
+  </div>
+
+  <div class="tab-content active" id="tab-posts">
+    {% for post in posts %}
+      <div class="tweet-card">
+        <div class="tweet-header">
+          <div class="user-avatar">
+            {{ post.user.username|first|upper }}
+          </div>
+          <div class="user-info">
+            <div class="user-name">{{ post.user.username }}</div>
+            <div class="user-handle">@{{ post.user.username }}</div>
+          </div>
+          <div class="tweet-time">{{ post.created_at|date:"M d" }}</div>
+        </div>
+        
+        <div class="tweet-content">
+          {{ post.content }}
+        </div>
+        
+        {% if post.image %}
+          <img src="{{ post.image.url }}" alt="投稿画像" class="tweet-image">
+        {% endif %}
+        
+        <div class="tweet-actions">
+          <button class="action-btn" title="返信">
+            <i class="action-icon far fa-comment"></i>
+            <span class="action-count">0</span>
+          </button>
+          
+          <button class="action-btn" title="リツイート">
+            <i class="action-icon far fa-retweet"></i>
+            <span class="action-count">0</span>
+          </button>
+          
+          <form method="post" action="{% url 'toggle_like' post.pk %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="action-btn like-btn {% if post.is_liked %}liked{% endif %}" title="いいね">
+              <i class="action-icon {% if post.is_liked %}fas{% else %}far{% endif %} fa-heart"></i>
+              <span class="action-count">{{ post.likes.count }}</span>
+            </button>
+          </form>
+          
+          <button class="action-btn" title="シェア">
+            <i class="action-icon far fa-share-square"></i>
+          </button>
+        </div>
+      </div>
+    {% empty %}
+      <div class="empty-state">
+        <div class="empty-icon">
+          <i class="far fa-comment-dots"></i>
+        </div>
+        <h3>まだ投稿がありません</h3>
+        <p>最初の投稿を作成してみましょう！</p>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="tab-content" id="tab-media">
+    {% for post in media_posts %}
+      {% if post.image %}
+        <div class="tweet-card">
+          <div class="tweet-header">
+            <div class="user-avatar">
+              {{ post.user.username|first|upper }}
+            </div>
+            <div class="user-info">
+              <div class="user-name">{{ post.user.username }}</div>
+              <div class="user-handle">@{{ post.user.username }}</div>
+            </div>
+            <div class="tweet-time">{{ post.created_at|date:"M d" }}</div>
+          </div>
+          
+          <div class="tweet-content">
+            {{ post.content }}
+          </div>
+          
+          <img src="{{ post.image.url }}" alt="投稿画像" class="tweet-image">
+          
+          <div class="tweet-actions">
+            <button class="action-btn" title="返信">
+              <i class="action-icon far fa-comment"></i>
+              <span class="action-count">0</span>
+            </button>
+            
+            <button class="action-btn" title="リツイート">
+              <i class="action-icon far fa-retweet"></i>
+              <span class="action-count">0</span>
+            </button>
+            
+            <form method="post" action="{% url 'toggle_like' post.pk %}" style="display: inline;">
+              {% csrf_token %}
+              <button type="submit" class="action-btn like-btn {% if post.is_liked %}liked{% endif %}" title="いいね">
+                <i class="action-icon {% if post.is_liked %}fas{% else %}far{% endif %} fa-heart"></i>
+                <span class="action-count">{{ post.likes.count }}</span>
+              </button>
+            </form>
+            
+            <button class="action-btn" title="シェア">
+              <i class="action-icon far fa-share-square"></i>
+            </button>
+          </div>
+        </div>
+      {% endif %}
+    {% empty %}
+      <div class="empty-state">
+        <div class="empty-icon">
+          <i class="far fa-images"></i>
+        </div>
+        <h3>画像付きの投稿がありません</h3>
+        <p>画像付きの投稿を作成してみましょう！</p>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="tab-content" id="tab-likes">
+    {% for post in liked_posts %}
+      <div class="tweet-card">
+        <div class="tweet-header">
+          <div class="user-avatar">
+            {{ post.user.username|first|upper }}
+          </div>
+          <div class="user-info">
+            <div class="user-name">{{ post.user.username }}</div>
+            <div class="user-handle">@{{ post.user.username }}</div>
+          </div>
+          <div class="tweet-time">{{ post.created_at|date:"M d" }}</div>
+        </div>
+        
+        <div class="tweet-content">
+          {{ post.content }}
+        </div>
+        
+        {% if post.image %}
+          <img src="{{ post.image.url }}" alt="投稿画像" class="tweet-image">
+        {% endif %}
+        
+        <div class="tweet-actions">
+          <button class="action-btn" title="返信">
+            <i class="action-icon far fa-comment"></i>
+            <span class="action-count">0</span>
+          </button>
+          
+          <button class="action-btn" title="リツイート">
+            <i class="action-icon far fa-retweet"></i>
+            <span class="action-count">0</span>
+          </button>
+          
+          <form method="post" action="{% url 'toggle_like' post.pk %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="action-btn like-btn liked" title="いいね">
+              <i class="action-icon fas fa-heart"></i>
+              <span class="action-count">{{ post.likes.count }}</span>
+            </button>
+          </form>
+          
+          <button class="action-btn" title="シェア">
+            <i class="action-icon far fa-share-square"></i>
+          </button>
+        </div>
+      </div>
+    {% empty %}
+      <div class="empty-state">
+        <div class="empty-icon">
+          <i class="far fa-heart"></i>
+        </div>
+        <h3>いいねした投稿がありません</h3>
+        <p>気に入った投稿にいいねしてみましょう！</p>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="tab-content" id="tab-bookmarks">
+    {% for post in bookmarked_posts %}
+      <div class="tweet-card">
+        <div class="tweet-header">
+          <div class="user-avatar">
+            {{ post.user.username|first|upper }}
+          </div>
+          <div class="user-info">
+            <div class="user-name">{{ post.user.username }}</div>
+            <div class="user-handle">@{{ post.user.username }}</div>
+          </div>
+          <div class="tweet-time">{{ post.created_at|date:"M d" }}</div>
+        </div>
+        
+        <div class="tweet-content">
+          {{ post.content }}
+        </div>
+        
+        {% if post.image %}
+          <img src="{{ post.image.url }}" alt="投稿画像" class="tweet-image">
+        {% endif %}
+        
+        <div class="tweet-actions">
+          <button class="action-btn" title="返信">
+            <i class="action-icon far fa-comment"></i>
+            <span class="action-count">0</span>
+          </button>
+          
+          <button class="action-btn" title="リツイート">
+            <i class="action-icon far fa-retweet"></i>
+            <span class="action-count">0</span>
+          </button>
+          
+          <form method="post" action="{% url 'toggle_like' post.pk %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="action-btn like-btn {% if post.is_liked %}liked{% endif %}" title="いいね">
+              <i class="action-icon {% if post.is_liked %}fas{% else %}far{% endif %} fa-heart"></i>
+              <span class="action-count">{{ post.likes.count }}</span>
+            </button>
+          </form>
+          
+          <form method="post" action="{% url 'toggle_bookmark' post.pk %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="action-btn bookmark-btn bookmarked" title="ブックマーク">
+              <i class="action-icon fas fa-bookmark"></i>
+            </button>
+          </form>
+          
+          <button class="action-btn" title="シェア">
+            <i class="action-icon far fa-share-square"></i>
+          </button>
+        </div>
+      </div>
+    {% empty %}
+      <div class="empty-state">
+        <div class="empty-icon">
+          <i class="far fa-bookmark"></i>
+        </div>
+        <h3>ブックマークした投稿がありません</h3>
+        <p>気に入った投稿をブックマークしてみましょう！</p>
+      </div>
+    {% endfor %}
+  </div>
+
+  <style>
+    .profile-header {
+      background-color: #000;
+      border-bottom: 1px solid #2f3336;
+    }
+    
+    .profile-cover {
+      height: 200px;
+      background: linear-gradient(45deg, #1d9bf0, #794bc4);
+      position: relative;
+    }
+    
+    .profile-avatar {
+      position: absolute;
+      bottom: -40px;
+      left: 16px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #000;
+      border: 4px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: white;
+      font-size: 32px;
+    }
+    
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    
+    .profile-info {
+      padding: 16px;
+      padding-top: 48px;
+    }
+    
+    .profile-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 16px;
+    }
+    
+    .edit-profile-btn {
+      background-color: transparent;
+      border: 1px solid #536471;
+      color: #e7e9ea;
+      padding: 8px 16px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+    
+    .edit-profile-btn:hover {
+      background-color: rgba(239, 243, 244, 0.1);
+    }
+    
+    .profile-name {
+      font-size: 20px;
+      font-weight: 700;
+      color: #e7e9ea;
+      margin-bottom: 4px;
+    }
+    
+    .profile-handle {
+      color: #71767b;
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+    
+    .profile-bio {
+      color: #e7e9ea;
+      font-size: 15px;
+      line-height: 20px;
+      margin-bottom: 16px;
+    }
+    
+    .profile-stats {
+      display: flex;
+      gap: 24px;
+    }
+    
+    .stat-item {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    
+    .stat-number {
+      font-weight: 700;
+      color: #e7e9ea;
+    }
+    
+    .stat-label {
+      color: #71767b;
+    }
+    
+    .profile-tabs {
+      display: flex;
+      border-bottom: 1px solid #2f3336;
+      background-color: #000;
+    }
+    
+    .tab-btn {
+      flex: 1;
+      background: none;
+      border: none;
+      color: #71767b;
+      padding: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .tab-btn:hover {
+      background-color: rgba(239, 243, 244, 0.03);
+    }
+    
+    .tab-btn.active {
+      color: #e7e9ea;
+      border-bottom: 2px solid #1d9bf0;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const tabButtons = document.querySelectorAll('.tab-btn');
+      const tabContents = document.querySelectorAll('.tab-content');
+      
+      tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          // すべてのタブを非アクティブにする
+          tabButtons.forEach(btn => btn.classList.remove('active'));
+          tabContents.forEach(content => content.classList.remove('active'));
+          
+          // クリックされたタブをアクティブにする
+          this.classList.add('active');
+          const tabId = this.dataset.tab;
+          document.getElementById('tab-' + tabId).classList.add('active');
+        });
+      });
+    });
+  </script>
+{% endblock %}

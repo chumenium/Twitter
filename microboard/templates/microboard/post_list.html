@@ -1,0 +1,74 @@
+{% extends 'microboard/base.html' %}
+{% load static %}
+
+{% block title %}ホーム{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <h1 class="page-title">ホーム</h1>
+  </div>
+
+  <div class="content-area">
+    {% for post in posts %}
+    <div class="tweet-card">
+      <div class="tweet-header">
+        <div class="user-avatar">
+          {{ post.user.username|first|upper }}
+        </div>
+        <div class="user-info">
+          <div class="user-name">{{ post.user.username }}</div>
+          <div class="user-handle">@{{ post.user.username }}</div>
+        </div>
+        <div class="tweet-time">{{ post.created_at|date:"M d" }}</div>
+      </div>
+      
+      <div class="tweet-content">
+        {{ post.content }}
+      </div>
+      
+      {% if post.image %}
+        <img src="{{ post.image.url }}" alt="投稿画像" class="tweet-image">
+      {% endif %}
+      
+              <div class="tweet-actions">
+          <button class="action-btn" title="返信">
+            <i class="action-icon far fa-comment"></i>
+            <span class="action-count">0</span>
+          </button>
+          
+          <button class="action-btn" title="リツイート">
+            <i class="action-icon far fa-retweet"></i>
+            <span class="action-count">0</span>
+          </button>
+          
+          <form method="post" action="{% url 'toggle_like' post.pk %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="action-btn like-btn {% if post.is_liked %}liked{% endif %}" title="いいね">
+              <i class="action-icon {% if post.is_liked %}fas{% else %}far{% endif %} fa-heart"></i>
+              <span class="action-count">{{ post.likes.count }}</span>
+            </button>
+          </form>
+          
+          <form method="post" action="{% url 'toggle_bookmark' post.pk %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="action-btn bookmark-btn {% if post.is_bookmarked %}bookmarked{% endif %}" title="ブックマーク">
+              <i class="action-icon {% if post.is_bookmarked %}fas{% else %}far{% endif %} fa-bookmark"></i>
+            </button>
+          </form>
+          
+          <button class="action-btn" title="シェア">
+            <i class="action-icon far fa-share-square"></i>
+          </button>
+        </div>
+    </div>
+    {% empty %}
+    <div class="empty-state">
+      <div class="empty-icon">
+        <i class="far fa-comment-dots"></i>
+      </div>
+      <h3>まだ投稿がありません</h3>
+      <p>最初の投稿を作成してみましょう！</p>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}

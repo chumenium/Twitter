@@ -1,0 +1,287 @@
+{% extends 'microboard/base.html' %}
+{% load static %}
+
+{% block title %}設定{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <h1 class="page-title">設定</h1>
+  </div>
+
+  <div class="settings-content">
+    <div class="settings-section">
+      <h3 class="section-title">アカウント</h3>
+      
+      <div class="setting-item">
+        <div class="setting-info">
+          <div class="setting-label">ユーザー名</div>
+          <div class="setting-value">@{{ current_user.username }}</div>
+        </div>
+        <button class="setting-btn">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+      
+      <div class="setting-item">
+        <div class="setting-info">
+          <div class="setting-label">表示名</div>
+          <div class="setting-value">{{ current_user.profile.name|default:"未設定" }}</div>
+        </div>
+        <a href="{% url 'profile_edit' %}" class="setting-btn">
+          <i class="fas fa-chevron-right"></i>
+        </a>
+      </div>
+      
+      <div class="setting-item">
+        <div class="setting-info">
+          <div class="setting-label">メールアドレス</div>
+          <div class="setting-value">{{ current_user.email|default:"未設定" }}</div>
+        </div>
+        <button class="setting-btn">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <h3 class="section-title">プライバシー</h3>
+      
+      <div class="setting-item">
+        <div class="setting-info">
+          <div class="setting-label">プライベートアカウント</div>
+          <div class="setting-description">フォローリクエストを承認したユーザーのみがあなたの投稿を見ることができます</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      
+      <div class="setting-item">
+        <div class="setting-info">
+          <div class="setting-label">位置情報を共有</div>
+          <div class="setting-description">投稿に位置情報を含める</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <h3 class="section-title">通知</h3>
+      
+      <div class="setting-item">
+        <div class="setting-info">
+          <div class="setting-label">プッシュ通知</div>
+          <div class="setting-description">新しい投稿やいいねの通知を受け取る</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      
+      <div class="setting-item">
+        <div class="setting-info">
+          <div class="setting-label">メール通知</div>
+          <div class="setting-description">重要な更新をメールで受け取る</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <h3 class="section-title">表示</h3>
+      
+      <div class="setting-item">
+        <div class="setting-info">
+          <div class="setting-label">ダークモード</div>
+          <div class="setting-description">ダークテーマを使用する</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      
+      <div class="setting-item">
+        <div class="setting-info">
+          <div class="setting-label">フォントサイズ</div>
+          <div class="setting-value">標準</div>
+        </div>
+        <button class="setting-btn">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <h3 class="section-title">データ</h3>
+      
+      <div class="setting-item">
+        <div class="setting-info">
+          <div class="setting-label">データのエクスポート</div>
+          <div class="setting-description">あなたのデータをダウンロードする</div>
+        </div>
+        <button class="setting-btn">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+      
+      <div class="setting-item">
+        <div class="setting-info">
+          <div class="setting-label">アカウントの削除</div>
+          <div class="setting-description">アカウントとデータを完全に削除する</div>
+        </div>
+        <button class="setting-btn danger">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .settings-content {
+      padding: 0;
+    }
+    
+    .settings-section {
+      border-bottom: 1px solid #2f3336;
+    }
+    
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #e7e9ea;
+      padding: 16px;
+      margin: 0;
+    }
+    
+    .setting-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px;
+      border-bottom: 1px solid #2f3336;
+      transition: background-color 0.2s ease;
+    }
+    
+    .setting-item:hover {
+      background-color: rgba(239, 243, 244, 0.03);
+    }
+    
+    .setting-info {
+      flex: 1;
+    }
+    
+    .setting-label {
+      font-weight: 500;
+      color: #e7e9ea;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+    
+    .setting-value {
+      color: #71767b;
+      font-size: 15px;
+    }
+    
+    .setting-description {
+      color: #71767b;
+      font-size: 13px;
+      line-height: 16px;
+    }
+    
+    .setting-btn {
+      background: none;
+      border: none;
+      color: #71767b;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 50%;
+      transition: all 0.2s ease;
+    }
+    
+    .setting-btn:hover {
+      background-color: rgba(239, 243, 244, 0.1);
+      color: #e7e9ea;
+    }
+    
+    .setting-btn.danger {
+      color: #f91880;
+    }
+    
+    .setting-btn.danger:hover {
+      background-color: rgba(249, 24, 128, 0.1);
+    }
+    
+    /* トグルスイッチ */
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+    
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #536471;
+      transition: 0.3s;
+      border-radius: 24px;
+    }
+    
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .toggle-slider {
+      background-color: #1d9bf0;
+    }
+    
+    input:checked + .toggle-slider:before {
+      transform: translateX(20px);
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // トグルスイッチのアニメーション
+      const toggles = document.querySelectorAll('.toggle-switch input');
+      
+      toggles.forEach(toggle => {
+        toggle.addEventListener('change', function() {
+          const slider = this.nextElementSibling;
+          if (this.checked) {
+            slider.style.transform = 'translateX(20px)';
+          } else {
+            slider.style.transform = 'translateX(0)';
+          }
+        });
+      });
+    });
+  </script>
+{% endblock %} 
