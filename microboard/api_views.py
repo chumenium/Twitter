@@ -49,4 +49,40 @@ class PostViewSet(viewsets.ModelViewSet):
             return self.get_paginated_response(serializer.data)
         
         serializer = self.get_serializer(posts, many=True)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['get'])
+    def my_posts(self, request):
+        """自分の投稿一覧"""
+        posts = Post.objects.filter(user=request.user).order_by('-created_at')
+        page = self.paginate_queryset(posts)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        
+        serializer = self.get_serializer(posts, many=True)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['get'])
+    def liked_posts(self, request):
+        """いいねした投稿一覧"""
+        posts = Post.objects.filter(likes__user=request.user).order_by('-created_at')
+        page = self.paginate_queryset(posts)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        
+        serializer = self.get_serializer(posts, many=True)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['get'])
+    def bookmarked_posts(self, request):
+        """ブックマークした投稿一覧"""
+        posts = Post.objects.filter(bookmarks__user=request.user).order_by('-created_at')
+        page = self.paginate_queryset(posts)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        
+        serializer = self.get_serializer(posts, many=True)
         return Response(serializer.data) 

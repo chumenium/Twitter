@@ -1,0 +1,78 @@
+.bookmarks-page {
+  max-width: 600px;
+  margin: 0 auto;
+  background: #000;
+  min-height: 100vh;
+}
+
+.bookmarks-header {
+  background: #000;
+  border-bottom: 1px solid #2f3336;
+  padding: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.bookmarks-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #e7e9ea;
+  margin: 0;
+}
+
+.bookmarks-content {
+  padding: 20px;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  color: #71767b;
+  font-size: 16px;
+  gap: 12px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #71767b;
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.empty-state h3 {
+  color: #e7e9ea;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.empty-state p {
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.posts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+@media (max-width: 480px) {
+  .bookmarks-header {
+    padding: 12px;
+  }
+  .bookmarks-title {
+    font-size: 18px;
+  }
+  .bookmarks-content {
+    padding: 12px;
+  }
+} 

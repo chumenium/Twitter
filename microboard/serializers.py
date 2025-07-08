@@ -1,12 +1,20 @@
 from rest_framework import serializers
-from .models import Post, Like, Bookmark
+from .models import Post, Like, Bookmark, Profile
 from django.contrib.auth.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name']
+        fields = ['id', 'username', 'first_name', 'last_name', 'email']
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    
+    class Meta:
+        model = Profile
+        fields = ['id', 'user', 'name', 'bio', 'image', 'location', 'website']
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -43,4 +51,28 @@ class PostCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data['user'] = self.context['request'].user
-        return super().create(validated_data) 
+        return super().create(validated_data)
+
+
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+    password_confirm = serializers.CharField(write_only=True)
+    
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password', 'password_confirm']
+    
+    def validate(self, data):
+        if data['password'] != data['password_confirm']:
+            raise serializers.ValidationError("パスワードが一致しません")
+        return data
+    
+    def create(self, validated_data):
+        validated_data.pop('password_confirm')
+        user = User.objects.create_user(**validated_data)
+        return user
+
+
+class UserLoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField() 

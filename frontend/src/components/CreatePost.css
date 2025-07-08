@@ -1,0 +1,202 @@
+.create-post {
+  background-color: #000;
+  border-bottom: 1px solid #2f3336;
+  padding: 16px;
+}
+
+.post-input-container {
+  display: flex;
+  gap: 12px;
+}
+
+.user-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #1d9bf0;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.post-input-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.post-textarea {
+  width: 100%;
+  min-height: 120px;
+  background: transparent;
+  border: none;
+  color: #e7e9ea;
+  font-size: 20px;
+  line-height: 24px;
+  resize: none;
+  outline: none;
+  font-family: inherit;
+  margin-bottom: 12px;
+}
+
+.post-textarea::placeholder {
+  color: #71767b;
+}
+
+.post-textarea:disabled {
+  opacity: 0.6;
+}
+
+.image-preview {
+  position: relative;
+  margin-bottom: 12px;
+  border-radius: 16px;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.image-preview img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.remove-image-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.75);
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.remove-image-btn:hover {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.post-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid #2f3336;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  color: #1d9bf0;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+}
+
+.action-btn:hover {
+  background-color: rgba(29, 155, 240, 0.1);
+}
+
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.action-btn i {
+  font-size: 20px;
+}
+
+.submit-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.char-count {
+  color: #71767b;
+  font-size: 13px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.char-count .over-limit {
+  color: #f91880;
+}
+
+.submit-btn {
+  background-color: #1d9bf0;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  opacity: 0.5;
+}
+
+.submit-btn.active {
+  opacity: 1;
+}
+
+.submit-btn.active:hover {
+  background-color: #1a8cd8;
+}
+
+.submit-btn:disabled {
+  cursor: not-allowed;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 480px) {
+  .create-post {
+    padding: 12px;
+  }
+  
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+  
+  .post-textarea {
+    font-size: 18px;
+    line-height: 22px;
+    min-height: 100px;
+  }
+  
+  .action-btn {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .action-btn i {
+    font-size: 18px;
+  }
+  
+  .submit-btn {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+} 

@@ -1,0 +1,177 @@
+.post-card {
+  background-color: #000;
+  border-bottom: 1px solid #2f3336;
+  padding: 16px;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.post-card:hover {
+  background-color: rgba(239, 243, 244, 0.03);
+}
+
+.post-header {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.user-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #1d9bf0;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.user-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.user-name {
+  color: #e7e9ea;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 20px;
+  margin-bottom: 2px;
+}
+
+.user-handle {
+  color: #71767b;
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.post-time {
+  color: #71767b;
+  font-size: 15px;
+  line-height: 20px;
+  margin-left: 8px;
+}
+
+.post-content {
+  color: #e7e9ea;
+  font-size: 15px;
+  line-height: 20px;
+  margin-bottom: 12px;
+  word-wrap: break-word;
+}
+
+.post-image {
+  margin-bottom: 12px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.post-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.post-actions {
+  display: flex;
+  justify-content: space-between;
+  max-width: 425px;
+  margin-top: 12px;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  color: #71767b;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  min-width: 0;
+}
+
+.action-btn:hover {
+  background-color: rgba(29, 155, 240, 0.1);
+  color: #1d9bf0;
+}
+
+.action-btn.like-btn:hover {
+  background-color: rgba(249, 24, 128, 0.1);
+  color: #f91880;
+}
+
+.action-btn.like-btn.liked {
+  color: #f91880;
+}
+
+.action-btn.like-btn.liked:hover {
+  background-color: rgba(249, 24, 128, 0.1);
+}
+
+.action-btn.bookmark-btn:hover {
+  background-color: rgba(29, 155, 240, 0.1);
+  color: #1d9bf0;
+}
+
+.action-btn.bookmark-btn.bookmarked {
+  color: #1d9bf0;
+}
+
+.action-btn.bookmark-btn.bookmarked:hover {
+  background-color: rgba(29, 155, 240, 0.1);
+}
+
+.action-icon {
+  font-size: 18px;
+  transition: transform 0.2s ease;
+}
+
+.action-btn:hover .action-icon {
+  transform: scale(1.1);
+}
+
+.action-count {
+  font-size: 13px;
+  font-weight: 400;
+  min-width: 0;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 480px) {
+  .post-card {
+    padding: 12px;
+  }
+  
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+    margin-right: 8px;
+  }
+  
+  .post-actions {
+    max-width: 100%;
+  }
+  
+  .action-btn {
+    padding: 6px;
+    gap: 4px;
+  }
+  
+  .action-icon {
+    font-size: 16px;
+  }
+  
+  .action-count {
+    font-size: 12px;
+  }
+} 

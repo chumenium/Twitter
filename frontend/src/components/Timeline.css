@@ -1,0 +1,145 @@
+.timeline {
+  background-color: #000;
+  min-height: 100vh;
+  color: #e7e9ea;
+}
+
+.timeline-header {
+  background-color: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid #2f3336;
+  padding: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.timeline-header h1 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+  color: #e7e9ea;
+}
+
+.posts-container {
+  background-color: #000;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #71767b;
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  color: #2f3336;
+}
+
+.empty-state h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #e7e9ea;
+}
+
+.empty-state p {
+  font-size: 15px;
+  margin: 0;
+}
+
+.load-more {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.load-more-btn {
+  background-color: transparent;
+  border: 1px solid #2f3336;
+  color: #1d9bf0;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 15px;
+}
+
+.load-more-btn:hover {
+  background-color: rgba(29, 155, 240, 0.1);
+  border-color: #1d9bf0;
+}
+
+.load-more-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.timeline-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  padding: 20px;
+}
+
+.error-message {
+  text-align: center;
+  color: #71767b;
+}
+
+.error-message i {
+  font-size: 48px;
+  color: #f91880;
+  margin-bottom: 16px;
+}
+
+.error-message p {
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.error-message button {
+  background-color: #1d9bf0;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.error-message button:hover {
+  background-color: #1a8cd8;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 480px) {
+  .timeline-header {
+    padding: 12px;
+  }
+  
+  .timeline-header h1 {
+    font-size: 18px;
+  }
+  
+  .empty-state {
+    padding: 40px 16px;
+  }
+  
+  .empty-icon {
+    font-size: 40px;
+  }
+  
+  .empty-state h3 {
+    font-size: 18px;
+  }
+  
+  .load-more-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+} 
