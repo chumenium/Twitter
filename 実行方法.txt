@@ -61,3 +61,6 @@
 
 ---
 何か不明点があればご質問ください。 
+
+
+　・PowerSell上で「powershell restart-service vmcompute」
