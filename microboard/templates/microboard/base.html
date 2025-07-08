@@ -550,16 +550,13 @@
           <a href="{% url 'mypage' %}" class="nav-link">
             <i class="fas fa-user"></i> プロフィール
           </a>
-          <form method="post" action="{% url 'account_logout' %}" style="display: inline;">
-            {% csrf_token %}
-            <button type="submit" class="logout-btn">
-              <i class="fas fa-sign-out-alt"></i> ログアウト
-            </button>
-          </form>
+          <a href="{% url 'logout' %}" class="nav-link">
+            <i class="fas fa-sign-out-alt"></i> ログアウト
+          </a>
         </nav>
       {% else %}
         <nav class="nav-menu">
-          <a href="{% url 'account_login' %}" class="nav-link">ログイン</a>
+          <a href="{% url 'login' %}" class="nav-link">ログイン</a>
           <a href="{% url 'signup' %}" class="nav-link">新規登録</a>
         </nav>
       {% endif %}

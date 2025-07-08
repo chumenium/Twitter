@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ログイン - Twitter風アプリ</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     * {
@@ -21,114 +21,15 @@
       color: #fff;
       line-height: 1.6;
       min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    .login-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      min-height: 100vh;
-    }
-
-    /* 左側のブランドエリア */
-    .brand-section {
-      background: linear-gradient(135deg, #1d9bf0 0%, #1a8cd8 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .brand-section::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="60" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="40" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-      opacity: 0.3;
-    }
-
-    .brand-content {
-      text-align: center;
-      z-index: 1;
-      position: relative;
-      max-width: 400px;
-      padding: 40px;
-    }
-
-    .brand-logo {
-      font-size: 64px;
-      color: white;
-      margin-bottom: 40px;
-      animation: float 6s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-    }
-
-    .brand-title {
-      font-size: 48px;
-      font-weight: 800;
-      color: white;
-      margin-bottom: 20px;
-      line-height: 1.2;
-    }
-
-    .brand-subtitle {
-      font-size: 20px;
-      color: rgba(255, 255, 255, 0.9);
-      font-weight: 400;
-      line-height: 1.5;
-    }
-
-    .brand-features {
-      margin-top: 40px;
-      text-align: left;
-    }
-
-    .feature-item {
-      display: flex;
-      align-items: center;
-      margin-bottom: 20px;
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 16px;
-    }
-
-    .feature-icon {
-      font-size: 20px;
-      margin-right: 16px;
-      color: white;
-    }
-
-    /* 右側のログインフォーム */
-    .login-section {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px;
-      background-color: #000;
     }
 
     .login-container {
       width: 100%;
       max-width: 400px;
-      animation: slideInRight 0.8s ease;
-    }
-
-    @keyframes slideInRight {
-      from {
-        opacity: 0;
-        transform: translateX(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
+      padding: 40px 20px;
     }
 
     .login-header {
@@ -136,8 +37,8 @@
       margin-bottom: 40px;
     }
 
-    .login-logo {
-      font-size: 32px;
+    .logo {
+      font-size: 48px;
       color: #1d9bf0;
       margin-bottom: 20px;
     }
@@ -159,8 +60,7 @@
     }
 
     .form-group {
-      margin-bottom: 24px;
-      position: relative;
+      margin-bottom: 20px;
     }
 
     .form-label {
@@ -174,30 +74,26 @@
     .form-control {
       width: 100%;
       background-color: transparent;
-      border: 2px solid #2f3336;
-      border-radius: 12px;
+      border: 1px solid #2f3336;
+      border-radius: 8px;
       color: #e7e9ea;
-      padding: 16px 20px;
+      padding: 16px;
       font-size: 16px;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
       outline: none;
-      font-weight: 400;
     }
 
     .form-control:focus {
       border-color: #1d9bf0;
-      box-shadow: 0 0 0 4px rgba(29, 155, 240, 0.1);
-      background-color: rgba(29, 155, 240, 0.05);
+      box-shadow: 0 0 0 2px rgba(29, 155, 240, 0.2);
     }
 
     .form-control::placeholder {
       color: #71767b;
-      font-weight: 400;
     }
 
     .form-control.error {
       border-color: #f91880;
-      box-shadow: 0 0 0 4px rgba(249, 24, 128, 0.1);
     }
 
     .form-control.success {
@@ -210,8 +106,7 @@
       margin-top: 8px;
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-weight: 500;
+      gap: 6px;
     }
 
     .success-message {
@@ -220,8 +115,7 @@
       margin-top: 8px;
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-weight: 500;
+      gap: 6px;
     }
 
     .login-btn {
@@ -229,51 +123,27 @@
       background-color: #1d9bf0;
       color: white;
       border: none;
-      padding: 16px 24px;
+      padding: 16px;
       border-radius: 25px;
       font-weight: 700;
       font-size: 16px;
       cursor: pointer;
-      transition: all 0.3s ease;
-      margin-bottom: 24px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .login-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transition: left 0.5s;
-    }
-
-    .login-btn:hover::before {
-      left: 100%;
+      transition: background-color 0.2s ease;
+      margin-bottom: 20px;
     }
 
     .login-btn:hover {
       background-color: #1a8cd8;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(29, 155, 240, 0.3);
-    }
-
-    .login-btn:active {
-      transform: translateY(0);
     }
 
     .login-btn:disabled {
-      opacity: 0.6;
+      opacity: 0.5;
       cursor: not-allowed;
-      transform: none;
     }
 
     .forgot-password {
       text-align: center;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .forgot-password a {
@@ -292,10 +162,9 @@
     .divider {
       display: flex;
       align-items: center;
-      margin: 24px 0;
+      margin: 20px 0;
       color: #71767b;
       font-size: 14px;
-      font-weight: 500;
     }
 
     .divider::before,
@@ -311,19 +180,19 @@
     }
 
     .social-login {
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .social-btn {
       width: 100%;
       background-color: transparent;
-      border: 2px solid #2f3336;
+      border: 1px solid #2f3336;
       color: #e7e9ea;
-      padding: 14px 20px;
+      padding: 12px 16px;
       border-radius: 25px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -335,7 +204,6 @@
     .social-btn:hover {
       background-color: rgba(239, 243, 244, 0.1);
       border-color: #71767b;
-      transform: translateY(-1px);
     }
 
     .social-btn i {
@@ -344,7 +212,7 @@
 
     .signup-link {
       text-align: center;
-      margin-top: 24px;
+      margin-top: 20px;
       padding: 20px;
       background-color: rgba(239, 243, 244, 0.05);
       border-radius: 16px;
@@ -388,40 +256,25 @@
     }
 
     /* レスポンシブデザイン */
-    @media (max-width: 1024px) {
-      .login-layout {
-        grid-template-columns: 1fr;
-      }
-      
-      .brand-section {
-        display: none;
-      }
-      
-      .login-section {
-        padding: 20px;
-        min-height: 100vh;
-      }
-    }
-
     @media (max-width: 480px) {
       .login-container {
-        padding: 0;
+        padding: 20px;
       }
       
       .login-title {
         font-size: 28px;
       }
       
-      .login-logo {
-        font-size: 28px;
+      .logo {
+        font-size: 40px;
       }
       
       .form-control {
-        padding: 14px 16px;
+        padding: 14px;
       }
       
       .login-btn {
-        padding: 14px 20px;
+        padding: 14px;
       }
     }
 
@@ -439,137 +292,97 @@
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
-
-    /* 入力フィールドのアニメーション */
-    .form-group.focused .form-label {
-      color: #1d9bf0;
-    }
-
-    .form-group.focused .form-control {
-      border-color: #1d9bf0;
-    }
   </style>
 </head>
 <body>
-  <div class="login-layout">
-    <!-- 左側のブランドエリア -->
-    <div class="brand-section">
-      <div class="brand-content">
-        <div class="brand-logo">
-          <i class="fab fa-twitter"></i>
-        </div>
-        <h1 class="brand-title">今起こっていることを見つけよう</h1>
-        <p class="brand-subtitle">今日、あなたの興味のあるトピックについて話し合いましょう。</p>
-        
-        <div class="brand-features">
-          <div class="feature-item">
-            <i class="fas fa-search feature-icon"></i>
-            <span>興味のあるトピックを発見</span>
-          </div>
-          <div class="feature-item">
-            <i class="fas fa-users feature-icon"></i>
-            <span>同じ興味を持つ人とつながる</span>
-          </div>
-          <div class="feature-item">
-            <i class="fas fa-comments feature-icon"></i>
-            <span>リアルタイムで会話に参加</span>
-          </div>
-        </div>
+  <div class="login-container">
+    <div class="login-header">
+      <div class="logo">
+        <i class="fab fa-twitter"></i>
       </div>
+      <h1 class="login-title">ログイン</h1>
+      <p class="login-subtitle">アカウントにログインしてください</p>
     </div>
 
-    <!-- 右側のログインフォーム -->
-    <div class="login-section">
-      <div class="login-container">
-        <div class="login-header">
-          <div class="login-logo">
-            <i class="fab fa-twitter"></i>
+    <form method="post" class="login-form" id="login-form">
+      {% csrf_token %}
+      
+      <div class="form-group">
+        <label for="id_username" class="form-label">ユーザー名</label>
+        <input 
+          type="text" 
+          name="username" 
+          id="id_username" 
+          class="form-control" 
+          placeholder="ユーザー名を入力"
+          required
+          autocomplete="username"
+        >
+        {% if form.username.errors %}
+          <div class="error-message">
+            <i class="fas fa-exclamation-circle"></i>
+            {{ form.username.errors.0 }}
           </div>
-          <h1 class="login-title">ログイン</h1>
-          <p class="login-subtitle">アカウントにログインしてください</p>
-        </div>
-
-        <form method="post" class="login-form" id="login-form">
-          {% csrf_token %}
-          
-          <div class="form-group">
-            <label for="id_username" class="form-label">ユーザー名</label>
-            <input 
-              type="text" 
-              name="username" 
-              id="id_username" 
-              class="form-control" 
-              placeholder="ユーザー名を入力"
-              required
-              autocomplete="username"
-            >
-            {% if form.username.errors %}
-              <div class="error-message">
-                <i class="fas fa-exclamation-circle"></i>
-                {{ form.username.errors.0 }}
-              </div>
-            {% endif %}
-          </div>
-          
-          <div class="form-group">
-            <label for="id_password" class="form-label">パスワード</label>
-            <input 
-              type="password" 
-              name="password" 
-              id="id_password" 
-              class="form-control" 
-              placeholder="パスワードを入力"
-              required
-              autocomplete="current-password"
-            >
-            {% if form.password.errors %}
-              <div class="error-message">
-                <i class="fas fa-exclamation-circle"></i>
-                {{ form.password.errors.0 }}
-              </div>
-            {% endif %}
-          </div>
-
-          {% if form.non_field_errors %}
-            <div class="error-message">
-              <i class="fas fa-exclamation-circle"></i>
-              {{ form.non_field_errors.0 }}
-            </div>
-          {% endif %}
-          
-          <button type="submit" class="login-btn" id="login-btn">
-            <i class="fas fa-sign-in-alt"></i> ログイン
-          </button>
-        </form>
-
-        <div class="forgot-password">
-          <a href="#">パスワードを忘れた場合</a>
-        </div>
-
-        <div class="divider">
-          <span>または</span>
-        </div>
-
-        <div class="social-login">
-          <button class="social-btn" type="button">
-            <i class="fab fa-google"></i>
-            Googleでログイン
-          </button>
-          <button class="social-btn" type="button">
-            <i class="fab fa-apple"></i>
-            Appleでログイン
-          </button>
-        </div>
-
-        <div class="signup-link">
-          <p>アカウントをお持ちでない方は</p>
-          <a href="{% url 'signup' %}">新規登録</a>
-        </div>
-
-        <div class="terms">
-          <p>ログインすることで、<a href="#">利用規約</a>と<a href="#">プライバシーポリシー</a>に同意したことになります。</p>
-        </div>
+        {% endif %}
       </div>
+      
+      <div class="form-group">
+        <label for="id_password" class="form-label">パスワード</label>
+        <input 
+          type="password" 
+          name="password" 
+          id="id_password" 
+          class="form-control" 
+          placeholder="パスワードを入力"
+          required
+          autocomplete="current-password"
+        >
+        {% if form.password.errors %}
+          <div class="error-message">
+            <i class="fas fa-exclamation-circle"></i>
+            {{ form.password.errors.0 }}
+          </div>
+        {% endif %}
+      </div>
+
+      {% if form.non_field_errors %}
+        <div class="error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ form.non_field_errors.0 }}
+        </div>
+      {% endif %}
+      
+      <button type="submit" class="login-btn" id="login-btn">
+        <i class="fas fa-sign-in-alt"></i> ログイン
+      </button>
+    </form>
+
+    <div class="forgot-password">
+      <a href="#">パスワードを忘れた場合</a>
+    </div>
+
+    <div class="divider">
+      <span>または</span>
+    </div>
+
+    <div class="social-login">
+      <button class="social-btn" type="button">
+        <i class="fab fa-google"></i>
+        Googleでログイン
+      </button>
+      <button class="social-btn" type="button">
+        <i class="fab fa-apple"></i>
+        Appleでログイン
+      </button>
+    </div>
+
+    <div class="signup-link">
+      <p>アカウントをお持ちでない方は</p>
+      <a href="{% url 'signup' %}">新規登録</a>
+    </div>
+
+    <div class="terms">
+      <p>ログインすることで、<a href="#">利用規約</a>と<a href="#">プライバシーポリシー</a>に同意したことになります。</p>
     </div>
   </div>
 
@@ -585,42 +398,6 @@
         loginBtn.disabled = true;
       });
       
-      // 入力フィールドのフォーカス効果
-      inputs.forEach(input => {
-        input.addEventListener('focus', function() {
-          this.parentElement.classList.add('focused');
-        });
-        
-        input.addEventListener('blur', function() {
-          this.parentElement.classList.remove('focused');
-        });
-        
-        // エラー状態の管理
-        if (input.classList.contains('error')) {
-          input.addEventListener('input', function() {
-            if (this.value.trim() !== '') {
-              this.classList.remove('error');
-              const errorMessage = this.parentElement.querySelector('.error-message');
-              if (errorMessage) {
-                errorMessage.style.display = 'none';
-              }
-            }
-          });
-        }
-      });
-      
-      // ソーシャルログインボタンのホバー効果
-      const socialBtns = document.querySelectorAll('.social-btn');
-      socialBtns.forEach(btn => {
-        btn.addEventListener('mouseenter', function() {
-          this.style.transform = 'translateY(-2px)';
-        });
-        
-        btn.addEventListener('mouseleave', function() {
-          this.style.transform = 'translateY(0)';
-        });
-      });
-
       // 入力フィールドのバリデーション
       const usernameInput = document.getElementById('id_username');
       const passwordInput = document.getElementById('id_password');

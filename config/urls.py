@@ -9,8 +9,7 @@ from microboard.views import post_list
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('microboard.urls')),  # 投稿アプリ
-    path('accounts/', include('allauth.urls')),  # allauth用
+    path('', include('microboard.urls')),  # 投稿アプリ（認証も含む）
     path('', lambda request: redirect('post_list')),
     path("timeline/", post_list, name="post_list"),  # ← スラッシュを追加
 
