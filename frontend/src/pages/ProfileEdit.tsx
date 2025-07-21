@@ -94,6 +94,8 @@ const ProfileEdit: React.FC = () => {
 
       await profileApi.updateProfile(formDataToSend);
       await updateProfile(undefined);
+      // プロフィール更新後にページをリロードしてタイムラインを更新
+      window.location.reload();
       navigate('/mypage');
     } catch (err: any) {
       if (err.response?.data) {

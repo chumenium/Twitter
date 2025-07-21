@@ -47,7 +47,7 @@ def user_login(request):
 #ログアウト処理
 def user_logout(request):
     logout(request)
-    return render(request, 'registration/logged_out.html')
+    return redirect('post_list')  # タイムラインにリダイレクト
 
 
 #タイムライン表示

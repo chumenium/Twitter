@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('microboard', '0002_like'),
+        ('backend', '0002_like'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 

@@ -27,7 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',  # Django REST Framework
     'corsheaders',  # CORS設定
-    'microboard',  # ← 作成したアプリ
+    'backend',  # ← 作成したアプリ
 ]
 
 MIDDLEWARE = [
@@ -109,7 +109,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/timeline/'
-LOGOUT_REDIRECT_URL = '/login/'
+LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
 
 # 認証設定

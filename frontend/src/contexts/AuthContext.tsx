@@ -10,6 +10,7 @@ interface AuthContextType {
   register: (username: string, email: string, password: string, passwordConfirm: string) => Promise<void>;
   logout: () => Promise<void>;
   updateProfile: (data: any) => Promise<void>;
+  updateUser: (data: any) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -76,6 +77,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       await authApi.logout();
       setUser(null);
       setProfile(null);
+      // ログアウト後にホームページにリダイレクト
+      window.location.href = '/';
     } catch (error) {
       console.error('ログアウトエラー:', error);
     }
@@ -89,8 +92,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       } else {
         // 引数なしの場合は現在のユーザー情報を再取得
         const userResponse = await authApi.getCurrentUser();
+        setUser(userResponse.user);
         setProfile(userResponse.profile);
       }
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const updateUser = async (data: any) => {
+    try {
+      const response = await authApi.updateUser(data);
+      setUser(response.user);
+      // ユーザー情報更新後に少し遅延してからページをリロード
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
     } catch (error) {
       throw error;
     }
@@ -104,6 +121,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     register,
     logout,
     updateProfile,
+    updateUser,
   };
 
   return (

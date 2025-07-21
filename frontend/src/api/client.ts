@@ -35,8 +35,8 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // 認証エラーの場合はログインページにリダイレクト
-      window.location.href = '/login/';
+      // 認証エラーの場合はホームページにリダイレクト
+      window.location.href = '/';
     }
     return Promise.reject(error);
   }

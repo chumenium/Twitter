@@ -1,8 +1,16 @@
+export interface Profile {
+  name: string;
+  image?: string;
+  bio: string;
+}
+
 export interface User {
   id: number;
   username: string;
   first_name: string;
   last_name: string;
+  profile: Profile;
+  display_name: string;
 }
 
 export interface Post {

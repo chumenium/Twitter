@@ -65,10 +65,17 @@ const PostCard: React.FC<PostCardProps> = ({ post, onUpdate }) => {
     <div className="post-card">
       <div className="post-header">
         <div className="user-avatar">
-          {post.user.username.charAt(0).toUpperCase()}
+          {post.user.profile.image ? (
+            <img 
+              src={`http://127.0.0.1:8001${post.user.profile.image}`} 
+              alt={post.user.profile.name} 
+            />
+          ) : (
+            post.user.username.charAt(0).toUpperCase()
+          )}
         </div>
         <div className="user-info">
-          <div className="user-name">{post.user.username}</div>
+          <div className="user-name">{post.user.display_name}</div>
           <div className="user-handle">@{post.user.username}</div>
         </div>
         <div className="post-time">{formatDate(post.created_at)}</div>

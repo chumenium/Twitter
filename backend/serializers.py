@@ -4,9 +4,35 @@ from django.contrib.auth.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
+    profile = serializers.SerializerMethodField()
+    display_name = serializers.SerializerMethodField()
+    
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name', 'email']
+        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'profile', 'display_name']
+    
+    def get_profile(self, obj):
+        try:
+            profile = obj.profile
+            return {
+                'name': profile.name,
+                'image': profile.image.url if profile.image else None,
+                'bio': profile.bio
+            }
+        except:
+            return {
+                'name': obj.username,
+                'image': None,
+                'bio': ''
+            }
+    
+    def get_display_name(self, obj):
+        """プロフィール名を優先し、なければユーザー名を返す"""
+        try:
+            profile = obj.profile
+            return profile.name if profile.name else obj.username
+        except:
+            return obj.username
 
 
 class ProfileSerializer(serializers.ModelSerializer):

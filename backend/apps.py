@@ -2,7 +2,7 @@ from django.apps import AppConfig
 
 class MicroboardConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'microboard'
+    name = 'backend'
 
     def ready(self):
-        import microboard.signals
+        import backend.signals

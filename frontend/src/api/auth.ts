@@ -43,4 +43,10 @@ export const authApi = {
     });
     return response.data as { message: string; profile: any };
   },
+
+  // ユーザー情報更新
+  updateUser: async (data: { username?: string; first_name?: string; last_name?: string; email?: string }): Promise<{ message: string; user: any }> => {
+    const response = await apiClient.put('/api/auth/user/update/', data);
+    return response.data as { message: string; user: any };
+  },
 }; 

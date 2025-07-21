@@ -85,4 +85,36 @@ def update_profile(request):
             'profile': serializer.data
         })
     
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def update_user(request):
+    """ユーザー情報更新API"""
+    user = request.user
+    data = request.data.copy()
+    
+    # ユーザー名の重複チェック
+    if 'username' in data and data['username'] != user.username:
+        if User.objects.filter(username=data['username']).exists():
+            return Response({
+                'username': ['このユーザー名は既に使用されています']
+            }, status=status.HTTP_400_BAD_REQUEST)
+    
+    # ユーザー情報を更新
+    if 'username' in data:
+        user.username = data['username']
+    if 'first_name' in data:
+        user.first_name = data['first_name']
+    if 'last_name' in data:
+        user.last_name = data['last_name']
+    if 'email' in data:
+        user.email = data['email']
+    
+    user.save()
+    
+    return Response({
+        'message': 'ユーザー情報を更新しました',
+        'user': UserSerializer(user).data
+    }) 

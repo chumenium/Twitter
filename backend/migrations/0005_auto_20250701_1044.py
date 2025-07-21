@@ -6,7 +6,7 @@ from django.db import migrations
 def create_profiles_for_existing_users(apps, schema_editor):
     """既存のユーザーにプロフィールを作成"""
     User = apps.get_model('auth', 'User')
-    Profile = apps.get_model('microboard', 'Profile')
+    Profile = apps.get_model('backend', 'Profile')
     
     for user in User.objects.all():
         Profile.objects.get_or_create(
@@ -17,14 +17,14 @@ def create_profiles_for_existing_users(apps, schema_editor):
 
 def reverse_create_profiles(apps, schema_editor):
     """ロールバック用（プロフィールを削除）"""
-    Profile = apps.get_model('microboard', 'Profile')
+    Profile = apps.get_model('backend', 'Profile')
     Profile.objects.all().delete()
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('microboard', '0004_bookmark'),
+        ('backend', '0004_bookmark'),
     ]
 
     operations = [
