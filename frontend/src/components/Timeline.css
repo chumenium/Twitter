@@ -17,8 +17,47 @@
 .timeline-header h1 {
   font-size: 20px;
   font-weight: 700;
-  margin: 0;
+  margin: 0 0 16px 0;
   color: #e7e9ea;
+}
+
+.timeline-tabs {
+  display: flex;
+  border-bottom: 1px solid #2f3336;
+  margin-top: 8px;
+}
+
+.tab-button {
+  flex: 1;
+  background: none;
+  border: none;
+  color: #71767b;
+  padding: 16px 0;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.tab-button:hover {
+  color: #e7e9ea;
+  background-color: rgba(239, 243, 244, 0.1);
+}
+
+.tab-button.active {
+  color: #e7e9ea;
+}
+
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background-color: #1d9bf0;
+  border-radius: 2px;
 }
 
 .posts-container {
@@ -124,6 +163,16 @@
   
   .timeline-header h1 {
     font-size: 18px;
+    margin-bottom: 12px;
+  }
+  
+  .timeline-tabs {
+    margin-top: 4px;
+  }
+  
+  .tab-button {
+    padding: 12px 0;
+    font-size: 14px;
   }
   
   .empty-state {

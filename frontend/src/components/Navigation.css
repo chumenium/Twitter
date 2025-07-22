@@ -48,6 +48,17 @@
   transition: background 0.2s, color 0.2s;
 }
 
+.nav-icon-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-right: 12px;
+}
+
+.nav-icon-wrapper i {
+  font-size: 20px;
+  margin-right: 0;
+}
+
 .nav-item.active,
 .nav-item:hover {
   background: rgba(29, 155, 240, 0.1);

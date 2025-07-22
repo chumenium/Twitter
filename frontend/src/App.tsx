@@ -7,6 +7,8 @@ import Register from './pages/Register';
 import Mypage from './pages/Mypage';
 import ProfileEdit from './pages/ProfileEdit';
 import Bookmarks from './pages/Bookmarks';
+import Notifications from './pages/Notifications';
+import PostDetail from './pages/PostDetail';
 import Settings from './pages/Settings';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navigation from './components/Navigation';
@@ -26,6 +28,8 @@ function App() {
               <Route path="/mypage" element={<ProtectedRoute><Mypage /></ProtectedRoute>} />
               <Route path="/profile/edit" element={<ProtectedRoute><ProfileEdit /></ProtectedRoute>} />
               <Route path="/bookmarks" element={<ProtectedRoute><Bookmarks /></ProtectedRoute>} />
+          <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
+          <Route path="/post/:id" element={<ProtectedRoute><PostDetail /></ProtectedRoute>} />
               <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>

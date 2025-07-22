@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import NotificationBadge from './NotificationBadge';
 import './Navigation.css';
 
 const Navigation: React.FC = () => {
@@ -39,6 +40,13 @@ const Navigation: React.FC = () => {
               <Link to="/bookmarks" className={`nav-item ${location.pathname === '/bookmarks' ? 'active' : ''}`}>
                 <i className="fas fa-bookmark"></i>
                 <span>ブックマーク</span>
+              </Link>
+              <Link to="/notifications" className={`nav-item ${location.pathname === '/notifications' ? 'active' : ''}`}>
+                <div className="nav-icon-wrapper">
+                  <i className="fas fa-bell"></i>
+                  <NotificationBadge />
+                </div>
+                <span>通知</span>
               </Link>
               <Link to="/settings" className={`nav-item ${location.pathname === '/settings' ? 'active' : ''}`}>
                 <i className="fas fa-cog"></i>

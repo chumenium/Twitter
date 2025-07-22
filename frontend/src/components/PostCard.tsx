@@ -12,6 +12,8 @@ const PostCard: React.FC<PostCardProps> = ({ post, onUpdate }) => {
   const [isLiked, setIsLiked] = useState(post.is_liked);
   const [likesCount, setLikesCount] = useState(post.likes_count);
   const [isBookmarked, setIsBookmarked] = useState(post.is_bookmarked);
+  const [isRetweeted, setIsRetweeted] = useState(post.is_retweeted);
+  const [retweetsCount, setRetweetsCount] = useState(post.retweets_count);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLike = async () => {
@@ -40,6 +42,22 @@ const PostCard: React.FC<PostCardProps> = ({ post, onUpdate }) => {
       onUpdate();
     } catch (error) {
       console.error('ブックマークの切り替えに失敗しました:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleRetweet = async () => {
+    if (isLoading) return;
+    
+    setIsLoading(true);
+    try {
+      const response = await postsApi.toggleRetweet(post.id);
+      setIsRetweeted(response.retweeted);
+      setRetweetsCount(response.retweets_count);
+      onUpdate();
+    } catch (error) {
+      console.error('リツイートの切り替えに失敗しました:', error);
     } finally {
       setIsLoading(false);
     }
@@ -94,12 +112,17 @@ const PostCard: React.FC<PostCardProps> = ({ post, onUpdate }) => {
       <div className="post-actions">
         <button className="action-btn" title="返信">
           <i className="action-icon far fa-comment"></i>
-          <span className="action-count">0</span>
+          <span className="action-count">{post.replies_count || 0}</span>
         </button>
         
-        <button className="action-btn" title="リツイート">
-          <i className="action-icon far fa-retweet"></i>
-          <span className="action-count">0</span>
+        <button 
+          className={`action-btn retweet-btn ${isRetweeted ? 'retweeted' : ''}`} 
+          onClick={handleRetweet}
+          disabled={isLoading}
+          title="リツイート"
+        >
+          <i className={`action-icon ${isRetweeted ? 'fas' : 'far'} fa-retweet`}></i>
+          <span className="action-count">{retweetsCount}</span>
         </button>
         
         <button 

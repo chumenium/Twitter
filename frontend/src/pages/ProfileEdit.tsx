@@ -92,7 +92,8 @@ const ProfileEdit: React.FC = () => {
         formDataToSend.append('image', image);
       }
 
-      await profileApi.updateProfile(formDataToSend);
+      // プロフィール更新はAuthContextのupdateProfileを使用
+      await updateProfile(formDataToSend);
       await updateProfile(undefined);
       // プロフィール更新後にページをリロードしてタイムラインを更新
       window.location.reload();

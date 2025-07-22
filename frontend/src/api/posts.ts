@@ -8,6 +8,18 @@ export const postsApi = {
     return response.data as ApiResponse<Post>;
   },
 
+  // すべての投稿を取得
+  getAllPosts: async (page: number = 1): Promise<ApiResponse<Post>> => {
+    const response = await apiClient.get(`/api/posts/all_posts/?page=${page}`);
+    return response.data as ApiResponse<Post>;
+  },
+
+  // フォロー中の投稿を取得
+  getTimeline: async (page: number = 1): Promise<ApiResponse<Post>> => {
+    const response = await apiClient.get(`/api/posts/timeline/?page=${page}`);
+    return response.data as ApiResponse<Post>;
+  },
+
   // 投稿を作成
   createPost: async (data: CreatePostData): Promise<Post> => {
     const formData = new FormData();
@@ -37,6 +49,12 @@ export const postsApi = {
     return response.data as { bookmarked: boolean };
   },
 
+  // リツイートを切り替え
+  toggleRetweet: async (postId: number): Promise<{ retweeted: boolean; retweets_count: number }> => {
+    const response = await apiClient.post(`/api/posts/${postId}/toggle_retweet/`);
+    return response.data as { retweeted: boolean; retweets_count: number };
+  },
+
   getBookmarks: async (): Promise<ApiResponse<Post>> => {
     const response = await apiClient.get('/api/bookmarks/');
     return response.data as ApiResponse<Post>;
@@ -45,5 +63,17 @@ export const postsApi = {
   // 投稿を削除
   deletePost: async (postId: number): Promise<void> => {
     await apiClient.delete(`/api/posts/${postId}/`);
+  },
+
+  // 投稿の返信を取得
+  getPostReplies: async (postId: number): Promise<ApiResponse<Post>> => {
+    const response = await apiClient.get(`/api/posts/${postId}/replies/`);
+    return response.data as ApiResponse<Post>;
+  },
+
+  // 投稿の詳細情報を取得
+  getPostDetail: async (postId: number): Promise<any> => {
+    const response = await apiClient.get(`/api/posts/${postId}/detail/`);
+    return response.data;
   },
 }; 

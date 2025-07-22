@@ -18,10 +18,14 @@ export interface Post {
   user: User;
   content: string;
   image?: string;
+  reply_to?: number;
   created_at: string;
   likes_count: number;
   is_liked: boolean;
   is_bookmarked: boolean;
+  retweets_count: number;
+  is_retweeted: boolean;
+  replies_count: number;
 }
 
 export interface CreatePostData {

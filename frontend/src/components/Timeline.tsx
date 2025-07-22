@@ -5,17 +5,26 @@ import PostCard from './PostCard';
 import CreatePost from './CreatePost';
 import './Timeline.css';
 
+type TimelineType = 'all' | 'following';
+
 const Timeline: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
+  const [activeTab, setActiveTab] = useState<TimelineType>('following');
 
-  const fetchPosts = async (pageNum: number = 1, append: boolean = false) => {
+  const fetchPosts = async (pageNum: number = 1, append: boolean = false, timelineType: TimelineType = activeTab) => {
     try {
       setLoading(true);
-      const response = await postsApi.getPosts(pageNum);
+      let response: any;
+      
+      if (timelineType === 'all') {
+        response = await postsApi.getAllPosts(pageNum);
+      } else {
+        response = await postsApi.getTimeline(pageNum);
+      }
       
       if (append) {
         setPosts(prev => [...prev, ...response.results]);
@@ -34,8 +43,14 @@ const Timeline: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchPosts();
-  }, []);
+    fetchPosts(1, false, activeTab);
+  }, [activeTab]);
+
+  const handleTabChange = (tab: TimelineType) => {
+    setActiveTab(tab);
+    setPage(1);
+    setHasMore(true);
+  };
 
   const handlePostCreated = () => {
     // 新しい投稿が作成されたら、最初のページを再取得
@@ -69,6 +84,20 @@ const Timeline: React.FC = () => {
     <div className="timeline">
       <div className="timeline-header">
         <h1>ホーム</h1>
+        <div className="timeline-tabs">
+          <button
+            className={`tab-button ${activeTab === 'following' ? 'active' : ''}`}
+            onClick={() => handleTabChange('following')}
+          >
+            フォロー中
+          </button>
+          <button
+            className={`tab-button ${activeTab === 'all' ? 'active' : ''}`}
+            onClick={() => handleTabChange('all')}
+          >
+            すべて
+          </button>
+        </div>
       </div>
       
       <CreatePost onPostCreated={handlePostCreated} />
