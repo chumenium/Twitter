@@ -30,7 +30,10 @@ class UserSerializer(serializers.ModelSerializer):
         """プロフィール名を優先し、なければユーザー名を返す"""
         try:
             profile = obj.profile
-            return profile.name if profile.name else obj.username
+            # プロフィール名が空またはユーザー名と同じ場合はユーザー名を返す
+            if profile.name and profile.name != obj.username:
+                return profile.name
+            return obj.username
         except:
             return obj.username
 

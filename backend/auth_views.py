@@ -114,6 +114,16 @@ def update_user(request):
     
     user.save()
     
+    # プロフィールも更新
+    try:
+        profile = user.profile
+        # プロフィール名がユーザー名と同じ場合は自動更新
+        if profile.name == user.username or not profile.name:
+            profile.name = user.username
+            profile.save(update_fields=['name'])
+    except Profile.DoesNotExist:
+        Profile.objects.create(user=user, name=user.username)
+    
     return Response({
         'message': 'ユーザー情報を更新しました',
         'user': UserSerializer(user).data

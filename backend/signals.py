@@ -7,12 +7,16 @@ from .models import Profile
 def create_profile(sender, instance, created, **kwargs):
     """ユーザーが作成された時にプロフィールを自動作成"""
     if created:
-        Profile.objects.create(user=instance, name=instance.username)
+        Profile.objects.get_or_create(user=instance, defaults={'name': instance.username})
 
 @receiver(post_save, sender=User)
-def save_profile(sender, instance, **kwargs):
-    """ユーザーが保存された時にプロフィールも保存"""
+def update_profile_name(sender, instance, **kwargs):
+    """ユーザー名が変更された時にプロフィール名も更新"""
     try:
-        instance.profile.save()
+        profile = instance.profile
+        # プロフィール名がユーザー名と同じ場合は自動更新
+        if profile.name == instance.username or not profile.name:
+            profile.name = instance.username
+            profile.save(update_fields=['name'])
     except Profile.DoesNotExist:
         Profile.objects.create(user=instance, name=instance.username)

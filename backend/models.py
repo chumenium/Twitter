@@ -8,8 +8,8 @@ class Post(models.Model):
     image = models.ImageField(upload_to='post_images/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.content[:30]
+    def __str__(self) -> str:
+        return str(self.content)[:30]
 
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -25,9 +25,17 @@ class Profile(models.Model):
     name = models.CharField(max_length=30)
     image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
     bio = models.TextField(blank=True)
+    location = models.CharField(max_length=100, blank=True)
+    website = models.URLField(blank=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.user.username
+    
+    def save(self, *args, **kwargs):
+        # プロフィール名が空の場合はユーザー名を使用
+        if not self.name:
+            self.name = self.user.username
+        super().save(*args, **kwargs)
 
 
 class Bookmark(models.Model):
@@ -38,7 +46,7 @@ class Bookmark(models.Model):
     class Meta:
         unique_together = ('user', 'post')  # 同じユーザーが同じ投稿に複数回ブックマークできないように
 
-    def __str__(self):
-        return f"{self.user.username} bookmarked {self.post.content[:30]}"
+    def __str__(self) -> str:
+        return f"{self.user.username} bookmarked {str(self.post.content)[:30]}"
 
 
